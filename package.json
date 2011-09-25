@@ -1,8 +1,14 @@
 {
     "name": "eventreactor"
-  , "description": "super charge your event emitters"
+  , "description": "EventEmitters on a syntax suger rush"
   , "version": "0.0.1"
   , "author": "Arnout Kazemier <info@3rd-Eden.com>"
+  , "homepage": "http://observer.no.de"
+  , "keywords": ["event", "eventemitter", "observer"]
+  , "repository": {
+        "type": "git"
+      , "url": "git://github.com/observing/eventreactor.git"
+    }
   , "devDependencies": {
         "should": ""
       , "expresso": ""
