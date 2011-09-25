@@ -73,7 +73,7 @@ var EventEmitter = process.EventEmitter
           count++;
         }
 
-        EE.multi({
+        EE.multiple({
             error: listen
           , timeout: listen
           , disconnect: listen
