@@ -64,4 +64,33 @@ var EventEmitter = process.EventEmitter
           count.should.equal(3);
         }, 10);
       }
+
+    , 'multiple event listeners': function () {
+        var EE = new EventEmitter
+          , count = 0;
+
+        function listen () {
+          count++;
+        }
+
+        EE.multi({
+            error: listen
+          , timeout: listen
+          , disconnect: listen
+          , reconnect: listen
+          , abort: listen
+        });
+
+        // test to see if all events applied
+        EE.emit('error');
+        EE.emit('timeout');
+        EE.emit('disconnect');
+        EE.emit('reconnect');
+        EE.emit('abort');
+
+        // see above for the odd timeout thingy
+        setTimeout(function () {
+          count.should.equal(5);
+        }, 10);
+      }
   };
