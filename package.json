@@ -1,0 +1,10 @@
+{
+    "name": "eventreactor"
+  , "description": "super charge your event emitters"
+  , "version": "0.0.1"
+  , "author": "Arnout Kazemier <info@3rd-Eden.com>"
+  , "devDependencies": {
+        "should": ""
+      , "expresso": ""
+    }
+}
