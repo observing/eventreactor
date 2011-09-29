@@ -2,7 +2,7 @@ var EventEmitter = process.EventEmitter
   , should = require('should');
 
   // initialize our module
-  require('../lib');
+  require('../lib')(true);
 
   module.exports = {
       'has event': function () {
