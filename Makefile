@@ -12,7 +12,7 @@ run-tests:
 test:
 	@$(MAKE) TESTS="$(ALL_TESTS)" run-tests
 
-			test-cov:
-			@TESTFLAGS=--cov $(MAKE) test
+test-cov:
+	@TESTFLAGS=--cov $(MAKE) test
 
 .PHONY: test
