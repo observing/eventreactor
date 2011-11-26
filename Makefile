@@ -1,18 +1,13 @@
 ALL_TESTS = $(shell find tests/ -name '*.test.js')
-
-run-tests:
-	@./node_modules/.bin/expresso \
-		-t 4000 \
-		-I support \
-		-I lib \
-		--serial \
-		$(TESTFLAGS) \
-		$(TESTS)
+REPORTER = spec
+UI = exports
 
 test:
-	@$(MAKE) TESTS="$(ALL_TESTS)" run-tests
-
-test-cov:
-	@TESTFLAGS=--cov $(MAKE) test
+	@./node_modules/.bin/mocha \
+		--require should \
+		--reporter $(REPORTER) \
+		--ui $(UI) \
+		--growl \
+		$(ALL_TESTS)
 
 .PHONY: test
