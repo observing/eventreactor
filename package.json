@@ -1,7 +1,7 @@
 {
     "name": "eventreactor"
   , "description": "EventEmitters on a syntax suger rush"
-  , "version": "0.0.1"
+  , "version": "0.0.2"
   , "author": "Arnout Kazemier <info@3rd-Eden.com>"
   , "homepage": "http://observer.no.de"
   , "keywords": ["event", "eventemitter", "observer"]
@@ -10,7 +10,7 @@
       , "url": "git://github.com/observing/eventreactor.git"
     }
   , "devDependencies": {
-        "should": "0.3.2"
+        "should": "*"
       , "mocha": "*"
     }
   , "scripts": {

@@ -1,10 +1,15 @@
-var EventEmitter = process.EventEmitter;
+var EventEmitter = process.EventEmitter
+  , er = require('../lib');
 
-// initialize our module
-require('../lib')(true);
+// also enable bind overloading
+er(true);
 
 module.exports = {
-    'has event': function () {
+    'exports version number': function () {
+      er.version.should.match(/[0-9]+\.[0-9]+\.[0-9]+/);
+    }
+
+  , 'has event': function () {
       var EE = new EventEmitter
         , example = function () {};
 
