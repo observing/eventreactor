@@ -21,7 +21,7 @@ module.exports = {
       EE.has('example', function () {}).should.be_false;
     }
 
-  , 'subscribe to every given event': function () {
+  , 'subscribe to every given event': function (next) {
       var EE = new EventEmitter
         , count = 0;
 
@@ -40,10 +40,11 @@ module.exports = {
       // async, without a setTimeout it wines about 4 count's instead of 5
       setTimeout(function () {
         count.should.equal(5);
+        next();
       }, 10);
     }
 
-  , 'capture non listening events': function () {
+  , 'capture non listening events': function (next) {
       var EE = new EventEmitter
         , count = 0
         , unexisting = [
@@ -66,10 +67,11 @@ module.exports = {
       // see above for the odd timeout thingy
       setTimeout(function () {
         count.should.equal(3);
+        next();
       }, 10);
     }
 
-  , 'multiple event listeners': function () {
+  , 'multiple event listeners': function (next) {
       var EE = new EventEmitter
         , count = 0;
 
@@ -95,6 +97,7 @@ module.exports = {
       // see above for the odd timeout thingy
       setTimeout(function () {
         count.should.equal(5);
+        next();
       }, 10);
     }
 };
