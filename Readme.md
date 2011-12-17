@@ -74,3 +74,26 @@ again.. wondering if it couldn't be simpler than that.
 > });
 > ```
 
+4. EventEmitter.idle(event, timeout, callback /*, argument1, argument2 ... */);
+
+> Sometimes you want to know when an event has not been fired within a
+> specified time period.  You can set an idle timer that fires off a
+> callback for you if the event has gone missing.  Once fired, the event
+> will remove itself for you, so don't forget to set it back up after your
+> events start up again.
+>
+> Don't worry, like a good idle timer, it will reset itself when the event
+> has been fired before the timeout has occurred.
+>
+> ### example
+>
+>```js
+> // same init as first example
+> var EE = new EventEmitter;
+>
+> function callback (event) {
+>   console.log(event + " was never fired");
+> }
+>
+> EE.idle("timeout", 100, callback);
+> ```

@@ -100,4 +100,55 @@ module.exports = {
         next();
       }, 10);
     }
+
+  , 'idle fires callback': function (next) {
+      var EE = new EventEmitter
+        , count = 0;
+
+      function callback (event, argument1, argument2) {
+        event.should.equal('timeout');
+        argument1.should.equal('argument1');
+        argument2.should.equal('argument2');
+        count++;
+      }
+
+      EE.idle('timeout', 10, callback, 'argument1', 'argument2');
+
+      // idle should only be called once, the extra 10ms are for padding
+      setTimeout(function () {
+        count.should.equal(1);
+        next();
+      }, 30);
+    }
+
+  , 'idle resets when event is emitted': function (next) {
+      var EE = new EventEmitter
+        , callbackcount = 0
+        , eventcount = 0;
+
+      function callback (event) {
+        event.should.equal('timeout');
+
+        eventcount.should.equal(2);
+        callbackcount++;
+      }
+
+      EE.idle('timeout', 10, callback);
+
+      EE.on('timeout', function () { eventcount++; });
+
+      setTimeout(function () {
+        EE.emit('timeout');
+      }, 2);
+
+      setTimeout(function () {
+        EE.emit('timeout');
+      }, 4);
+
+      // idle should only be called once, the extra 10ms are for padding
+      setTimeout(function () {
+        callbackcount.should.equal(1);
+        next();
+      }, 20);
+    }
 };
