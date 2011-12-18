@@ -12,7 +12,7 @@ again.. wondering if it couldn't be simpler than that.
 
 ## New methods, API
 
-1. EventEmitter.every(event, event, event, callback);
+### EventEmitter.every(event, event, event, callback);
 
 Applies the same callback for all the given events. It expects that the callback
 is the last argument of the function and that all other arguments are the name
@@ -32,7 +32,7 @@ EE.every('error', 'timeout', function (e) {
 });
 ```
 
-2. EventEmitter.has(event, fn);
+### EventEmitter.has(event, fn);
 
 Check if the EventEmitter already has this function applied, if your code has
 multiple parts on where events can be added to your event emitter you might want
@@ -52,7 +52,7 @@ if (!EE.has('example', example)) {
 }
 ```
 
-3. EventEmitter.multiple({object});
+### EventEmitter.multiple({object});
 
 Sometimes you need to add a lot of event listeners for example when you create a
 net.Connection. You need to listener for error, close, connect, data, timeout
@@ -75,7 +75,7 @@ EE.multiple({
 });
 ```
 
-4. EventEmitter.idle(event, timeout, callback /*, argument1, argument2 ... */);
+### EventEmitter.idle(event, timeout, callback /*, argument1, argument2 ... */);
 
 Sometimes you want to know when an event has not been fired within a specified
 time period.  You can set an idle timer that fires off a callback for you if the
@@ -98,7 +98,7 @@ function callback (event) {
 EE.idle("timeout", 100, callback);
 ```
 
-5. EventEmitter.delay(event, timeout /*, argument1, argument2 .. */);
+### EventEmitter.delay(event, timeout /*, argument1, argument2 .. */);
 
 Delays the emitting of the given event. Much like setTimeout invokes the
 function after xxx miliseconds.
@@ -115,7 +115,7 @@ EE.on('foo', function (arg, arg1) {
 EE.delay('foo', 1000, 'arg1', 'arg2');
 ```
 
-6. EventEmitter.defer(event /*, argument1, argument2 ..*/);
+### EventEmitter.defer(event /*, argument1, argument2 ..*/);
 
 Defers the emitting of the event until the current call stack has been cleared.
 Simular to wrapping an emit in a `process.nextTick`.
