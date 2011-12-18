@@ -115,7 +115,7 @@ EE.on('foo', function (arg, arg1) {
 EE.delay('foo', 1000, 'arg1', 'arg2');
 ```
 
-### EventEmitter.defer(event /*, argument1, argument2 ..*/);
+### EventEmitter.defer(event /*, argument1, argument2 .. */);
 
 Defers the emitting of the event until the current call stack has been cleared.
 Simular to wrapping an emit in a `process.nextTick`.
@@ -136,6 +136,6 @@ console.log('called first');
 
 ### Aliases
 
-`EventEmitter.off` -> `EventEmitter.removeListener`
-`EventEmitter.removeEventListener` -> `EventEmitter.removeListener`
-`EventEmitter.addEventListener` -> `EventEmitter.addListener`
+- `EventEmitter.off` -> `EventEmitter.removeListener`
+- `EventEmitter.removeEventListener` -> `EventEmitter.removeListener`
+- `EventEmitter.addEventListener` -> `EventEmitter.addListener`
