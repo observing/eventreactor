@@ -134,6 +134,28 @@ EE.defer('pewpew', 1, 2, 3);
 console.log('called first');
 ```
 
+### uncaught events
+
+EventReactor comes with the ability to capture uncaught events. These are events
+that don't have listeners assigned to them. It's currently hidden behind a
+preference flag because it needs to override the existing `emit` method in order
+to make this work.
+
+#### example
+
+```
+var EventReactor = require('eventreactor');
+EventReactor(true); // turn on uncaught events
+
+var EE = new EventEmitter;
+
+EE.on('uncaught', function (event, data) {
+  console.log('no listeners for', event, data);
+});
+
+EE.emit('random name');
+```
+
 ### Aliases
 
 - `EventEmitter.off` -> `EventEmitter.removeListener`
