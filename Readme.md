@@ -18,7 +18,7 @@ Applies the same callback for all the given events. It expects that the callback
 is the last argument of the function and that all other arguments are the name
 of the events you want to listen on.
 
-#### example
+#### Example
 You find your self applying the same error handling for timeouts, errors and
 other error related events. This cleans up your code nicely
 
@@ -39,7 +39,7 @@ multiple parts on where events can be added to your event emitter you might want
 to check if it's not added already. This simple helper function returns true or
 false.
 
-#### example
+#### Example
 
 ```js
 // same init as above
@@ -61,7 +61,7 @@ and maybe even for end. That is a lot of events.
 Or maybe you are already used to a observer patterns that used objects for
 listening instead of eventlistener based layout. Anyways, we got you covered.
 
-#### example
+#### Example
 
 ```js
 // same init as first example
@@ -85,7 +85,7 @@ don't forget to set it back up after your events start up again.
 Don't worry, like a good idle timer, it will reset itself when the event has
 been fired before the timeout has occurred.
 
-#### example
+#### Example
 
 ```js
 // same init as first example
@@ -103,7 +103,7 @@ EE.idle("timeout", 100, callback);
 Delays the emitting of the given event. Much like setTimeout invokes the
 function after xxx miliseconds.
 
-#### example
+#### Example
 
 ```js
 var EE = new EventEmitter;
@@ -120,7 +120,7 @@ EE.delay('foo', 1000, 'arg1', 'arg2');
 Defers the emitting of the event until the current call stack has been cleared.
 Simular to wrapping an emit in a `process.nextTick`.
 
-#### example
+#### Example
 
 ```js
 var EE = new EventEmitter;
@@ -134,16 +134,16 @@ EE.defer('pewpew', 1, 2, 3);
 console.log('called first');
 ```
 
-### uncaught events
+### Uncaught events
 
 EventReactor comes with the ability to capture uncaught events. These are events
 that don't have listeners assigned to them. It's currently hidden behind a
 preference flag because it needs to override the existing `emit` method in order
 to make this work.
 
-#### example
+#### Example
 
-```
+```js
 var EventReactor = require('eventreactor');
 EventReactor(true); // turn on uncaught events
 
