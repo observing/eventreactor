@@ -6,21 +6,29 @@ var EventEmitter = process.EventEmitter
 EventReactor(true)
 
 describe('EventReactor', function () {
-  it('should exports the current version number', function () {
+  it('exports the current version number', function () {
     EventReactor.version.should.match(/[0-9]+\.[0-9]+\.[0-9]+/)
     EventReactor.version.should.be.a('string')
   })
 
-  it('should be a function', function () {
+  it('is a function', function () {
     EventReactor.should.be.a('function')
   })
 
+  it('introduces new function aliases', function () {
+    var proto = EventEmitter.prototype
+
+    proto.off.should.equal(proto.removeListener)
+    proto.removeEventListener.should.equal(proto.removeListener)
+    proto.addEventListener.should.equal(proto.addListener)
+  })
+
   describe('#has', function () {
-    it('should be added to the EventEmitter.prototype', function () {
+    it('is added to the EventEmitter.prototype', function () {
       EventEmitter.prototype.has.should.be.a('function')
     })
 
-    it('should only have the example function', function () {
+    it('only has the example function', function () {
       var EE = new EventEmitter
         , example = function () {}
 
@@ -33,11 +41,17 @@ describe('EventReactor', function () {
   })
 
   describe('#every', function () {
-    it('should be added to the EventEmitter.prototype', function () {
+    it('is added to the EventEmitter.prototype', function () {
       EventEmitter.prototype.every.should.be.a('function')
     })
 
-    it('should subscribe to every given event', function (next) {
+    it('is chainable', function () {
+      var EE = new EventEmitter
+
+      EE.every().should.equal(EE)
+    })
+
+    it('subscribes to every given event', function (next) {
       var EE = new EventEmitter
         , count = 0
 
@@ -64,11 +78,17 @@ describe('EventReactor', function () {
   })
 
   describe('#multiple', function () {
-    it('should be added to the EventEmitter.prototype', function () {
+    it('is added to the EventEmitter.prototype', function () {
       EventEmitter.prototype.multiple.should.be.a('function')
     })
 
-    it('multiple event listeners', function (next) {
+    it('is chainable', function () {
+      var EE = new EventEmitter
+
+      EE.multiple().should.equal(EE)
+    })
+
+    it('adds multiple event listeners', function (next) {
       var EE = new EventEmitter
         , count = 0
 
@@ -102,11 +122,17 @@ describe('EventReactor', function () {
   })
 
   describe('#idle', function () {
-    it('should be added to the EventEmitter.prototype', function () {
+    it('is added to the EventEmitter.prototype', function () {
       EventEmitter.prototype.idle.should.be.a('function')
     })
 
-    it('idle fires callback', function (next) {
+    it('is chainable', function () {
+      var EE = new EventEmitter
+
+      EE.idle().should.equal(EE)
+    })
+
+    it('fires the idle callback', function (next) {
       var EE = new EventEmitter
         , count = 0
 
@@ -120,7 +146,7 @@ describe('EventReactor', function () {
       EE.idle('timeout', 10, callback, 'argument1', 'argument2')
     })
 
-    it('idle resets when event is emitted', function (next) {
+    it('resets the idle timer when the event is emitted', function (next) {
       var EE = new EventEmitter
         , callbackcount = 0
         , eventcount = 0
@@ -149,6 +175,91 @@ describe('EventReactor', function () {
         callbackcount.should.equal(1)
         next()
       }, 20)
+    })
+  })
+
+  describe('#delay', function () {
+    it('is added to the EventEmitter.prototype', function () {
+      EventEmitter.prototype.delay.should.be.a('function')
+    })
+
+    it('is chainable', function () {
+      var EE = new EventEmitter
+
+      EE.delay().should.equal(EE)
+    })
+
+    it('delays the emitted event', function (next) {
+      var EE = new EventEmitter
+        , count = 0
+
+      EE.on('pewpew', function pewpew (arg1, arg2) {
+        arg1.should.equal('pew pew')
+        arg2.should.equal('pong pong')
+
+        arguments.length.should.equal(2)
+        ++count
+      })
+
+      EE.on('foobar', function foobar (arg1, arg2) {
+        arg1.should.equal('lalala')
+        arg2.should.equal('trololol')
+
+        arguments.length.should.equal(2)
+        ++count
+      })
+
+      EE.delay('pewpew', 10, 'pew pew', 'pong pong')
+      EE.delay('foobar', 20, 'lalala', 'trololol')
+
+      setTimeout(function () {
+        count.should.equal(1)
+      }, 15)
+
+      setTimeout(function () {
+        count.should.equal(2)
+        next()
+      }, 30)
+    })
+  })
+
+  describe('#defer', function () {
+    it('is added to the EventEmitter.prototype', function () {
+      EventEmitter.prototype.defer.should.be.a('function')
+    })
+
+    it('is chainable', function () {
+      var EE = new EventEmitter
+
+      EE.defer().should.equal(EE)
+    })
+
+    it('runs before a setTimeout(0)', function (next) {
+      var EE = new EventEmitter
+        , called = false
+
+      EE.on('defered', function (arg1, arg2) {
+        arg1.should.equal('foo')
+        arg2.should.equal('bar')
+
+        called.should.be.false
+        called = true
+      })
+
+      EE.on('readyornot', function () {
+        called.should.be.true
+        next()
+      })
+
+      !function callstackpadding () {
+        called.should.be.false
+      }()
+
+      setTimeout(function timeout () {
+        EE.emit('readyornot')
+      }, 0)
+
+      EE.defer('defered', 'foo', 'bar')
     })
   })
 
