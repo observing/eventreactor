@@ -77,6 +77,39 @@ describe('EventReactor', function () {
     })
   })
 
+  describe('#either', function () {
+    it('is added to the EventEmitter.prototype', function () {
+      EventEmitter.prototype.either.should.be.a('function')
+    })
+
+    it('is chainable', function () {
+      var EE = new EventEmitter
+
+      EE.either().should.equal(EE)
+    })
+
+    it('emit the event once, and it listens to every applied event', function () {
+      var EE = new EventEmitter
+        , count = 0
+
+      function listen () {
+        ++count;
+      }
+
+      EE.either('foo', 'bar', 'baz', listen)
+      EE.emit('foo')
+
+      count.should.equal(1)
+      EE.emit('bar')
+      count.should.equal(1)
+
+      EE.either('foo', 'bar', 'baz', listen)
+      EE.emit('bar')
+
+      count.should.equal(2)
+    })
+  })
+
   describe('#multiple', function () {
     it('is added to the EventEmitter.prototype', function () {
       EventEmitter.prototype.multiple.should.be.a('function')
