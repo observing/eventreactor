@@ -1,6 +1,6 @@
 # EventReactor, EventEmitters on a sugar rush
 
-Build status: [![BuildStatus](https://secure.travis-ci.org/observing/eventreactor.png)](http://travis-ci.org/observing/eventreactor)
+Build status: [![BuildStatus](https://secure.travis-ci.org/observing/eventreactor.png?branch=master)](http://travis-ci.org/observing/eventreactor)
 
 I could have come up with a lame name like `eventemitters`, `eventemitter3` or
 `event`. But I decided not to do that and just go with something completely odd.
