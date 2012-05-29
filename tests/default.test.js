@@ -176,7 +176,7 @@ describe('EventReactor', function () {
         next();
       }
 
-      EE.idle('timeout', 10, callback, 'argument1', 'argument2');
+      EE.idle('timeout', callback, 10, 'argument1', 'argument2');
     });
 
     it('resets the idle timer when the event is emitted', function (next) {
@@ -191,7 +191,7 @@ describe('EventReactor', function () {
         callbackcount++;
       }
 
-      EE.idle('timeout', 10, callback);
+      EE.idle('timeout', callback, 10);
 
       EE.on('timeout', function () { eventcount++; });
 
