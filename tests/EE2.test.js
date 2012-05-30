@@ -16,6 +16,7 @@ describe('EventEmitter2->EventReactor', function () {
     ER.multiple(EventEmitter2.prototype);
     ER.has(EventEmitter2.prototype);
     ER.defer(EventEmitter2.prototype);
+    ER.delay(EventEmitter2.prototype);
     ER.idle(EventEmitter2.prototype);
   });
 
@@ -221,7 +222,7 @@ describe('EventEmitter2->EventReactor', function () {
     });
 
     it('is chainable', function () {
-      var EE = new EventEmitter22;
+      var EE = new EventEmitter2;
 
       EE.delay().should.equal(EE);
     });
