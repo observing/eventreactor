@@ -1,10 +1,14 @@
 var EventEmitter = process.EventEmitter
   , EventReactor = require('../lib');
 
-EventReactor();
-
 describe('EventReactor', function () {
   "use strict";
+
+  var ER;
+
+  before(function () {
+    ER = new EventReactor();
+  });
 
   it('exports the current version number', function () {
     EventReactor.version.should.match(/[0-9]+\.[0-9]+\.[0-9]+/);
@@ -326,5 +330,9 @@ describe('EventReactor', function () {
         next();
       }, 10);
     });
+  });
+
+  after(function () {
+    ER.destroy();
   });
 });

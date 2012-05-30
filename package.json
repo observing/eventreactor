@@ -1,17 +1,18 @@
 {
     "name": "eventreactor"
   , "description": "EventEmitters on a syntax suger rush"
-  , "version": "0.0.6"
+  , "version": "0.1.0"
   , "author": "Arnout Kazemier <opensource@observe.it>"
   , "homepage": "http://observe.it"
-  , "keywords": ["event", "eventemitter", "observer"]
+  , "keywords": ["event", "eventemitter", "observer", "reactor"]
   , "repository": {
         "type": "git"
       , "url": "git://github.com/observing/eventreactor.git"
     }
   , "devDependencies": {
-        "should": "*"
-      , "mocha": "*"
+        "should": "0.6.3"
+      , "mocha": "1.0.3"
+      , "eventemitter2": "0.4.9"
     }
   , "scripts": {
         "test": "make test"
