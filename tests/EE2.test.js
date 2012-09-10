@@ -18,6 +18,7 @@ describe('EventEmitter2->EventReactor', function () {
     ER.defer(EventEmitter2.prototype);
     ER.delay(EventEmitter2.prototype);
     ER.idle(EventEmitter2.prototype);
+    ER.emit(EventEmitter2.prototype);
   });
 
   it('introduces new function aliases', function () {
@@ -301,9 +302,7 @@ describe('EventEmitter2->EventReactor', function () {
     });
   });
 
-  describe('uncaught events', function () {
-    return;
-
+  describe('#emit', function () {
     it('capture non listening events', function (next) {
       var EE = new EventEmitter2
         , count = 0
@@ -314,7 +313,7 @@ describe('EventEmitter2->EventReactor', function () {
           ]
         , i = unexisting.length;
 
-      EE.on('uncaught', function (event, data) {
+      EE.on('uncaughtEvent', function (event, data) {
         unexisting.indexOf(event).should.be.above(-1);
         count++;
       });
@@ -332,6 +331,18 @@ describe('EventEmitter2->EventReactor', function () {
         count.should.equal(3);
         next();
       }, 10);
+    });
+
+    it('captures and re-emits all events', function (next) {
+      var EE = new EventEmitter2;
+
+      EE.on('*.*', function (event) {
+        event.should.equal('foo');
+        next();
+      });
+
+      EE.on('foo', function () {});
+      EE.emit('foo');
     });
   });
 

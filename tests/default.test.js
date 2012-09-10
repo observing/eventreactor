@@ -300,9 +300,7 @@ describe('EventReactor', function () {
     });
   });
 
-  describe('uncaught events', function () {
-    return;
-
+  describe('#emit', function () {
     it('capture non listening events', function (next) {
       var EE = new EventEmitter
         , count = 0
@@ -313,7 +311,7 @@ describe('EventReactor', function () {
           ]
         , i = unexisting.length;
 
-      EE.on('uncaught', function (event, data) {
+      EE.on('uncaughtEvent', function (event, data) {
         unexisting.indexOf(event).should.be.above(-1);
         count++;
       });
@@ -331,6 +329,18 @@ describe('EventReactor', function () {
         count.should.equal(3);
         next();
       }, 10);
+    });
+
+    it('captures and re-emits all events', function (next) {
+      var EE = new EventEmitter;
+
+      EE.on('*.*', function (event) {
+        event.should.equal('foo');
+        next();
+      });
+
+      EE.on('foo', function () {});
+      EE.emit('foo');
     });
   });
 
