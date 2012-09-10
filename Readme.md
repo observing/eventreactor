@@ -2,15 +2,50 @@
 
 Build status: [![BuildStatus](https://secure.travis-ci.org/observing/eventreactor.png)](http://travis-ci.org/observing/eventreactor)
 
-I could have come up with a lame name like `eventemitters`, `eventemitter3` or
-`event`. But I decided not to do that and just go with something completely odd.
-
-But what does it do? I add some additional syntax suger on top of the existing
-EventEmitter's in node.js. They are all nice pretty, but when you are working
-with loads of events you find your self repeating the same things over and over
-again.. wondering if it couldn't be simpler than that.
+EventReactor adds additional syntax sugar on top of your existing EventEmitters.
+It works on top of every EventEmitter inspired module, even EventEmitter2. The
+EventReactor was created to migrate repeating patterns when working
+EventEmitters.
 
 ## New methods, API
+
+Before you can use the EventReactor you have to initialize it. This can be done
+by simply calling `new EventReactor()`. This will extend the default `EventEmitter`.
+If you don't want the EventEmitter to automatically extend the build-in
+EventEmitter or only want to use a subset of it's functionality you should
+supply the constructor with the `manual` option.
+
+```js
+var ER = new EventReactor({ manual: true });
+```
+
+When you invoke the EventReactor using the `manual` you need to manually attach
+the EventReactor methods to the `prototype` of your choosing, for example adding
+the EventReactor methods to the EventEmitter2 module.
+
+```js
+var EventReactor = require('eventreactor')
+  , EventEmitter2 = require('eventemitter2').EventEmitter2;
+
+var ER = new EventReactor({ manual: true });
+
+ER.aliases(EventEmitter2.prototype);
+ER.every(EventEmitter2.prototype);
+ER.either(EventEmitter2.prototype);
+ER.multiple(EventEmitter2.prototype);
+ER.has(EventEmitter2.prototype);
+ER.defer(EventEmitter2.prototype);
+ER.delay(EventEmitter2.prototype);
+ER.idle(EventEmitter2.prototype);
+ER.emit(EventEmitter2.prototype);
+```
+
+If you want to remove the EventReactor extensions you can call the destroy
+method. It should return the old and potentially overriden methods.
+
+```js
+ER.destroy(EventEmitter2.prototype);
+```
 
 ### EventEmitter.every(event, event, event, callback);
 
@@ -23,11 +58,7 @@ You find your self applying the same error handling for timeouts, errors and
 other error related events. This cleans up your code nicely
 
 ```js
-var EventEmitter = process.EventEmitter;
-require('eventreactor');
-
-var EE = new EventEmitter;
-EE.every('error', 'timeout', function (e) {
+EventEmitter.every('error', 'timeout', function (e) {
  console.error('(error) ', e.message);
 });
 ```
@@ -42,13 +73,10 @@ false.
 #### Example
 
 ```js
-// same init as above
-var EE = new EventEmitter;
-
 function example () {};
 
-if (!EE.has('example', example)) {
-  EE.on('example', example);
+if (!EventEmitter.has('example', example)) {
+  EventEmitter.on('example', example);
 }
 ```
 
@@ -64,10 +92,7 @@ listening instead of eventlistener based layout. Anyways, we got you covered.
 #### Example
 
 ```js
-// same init as first example
-var EE = new EventEmitter;
-
-EE.multiple({
+EventEmitter.multiple({
     error: function () { .. }
   , timeout: function () { .. }
   , connect: function () { .. }
@@ -88,14 +113,11 @@ been fired before the timeout has occurred.
 #### Example
 
 ```js
-// same init as first example
-var EE = new EventEmitter;
-
 function callback (event) {
   console.log(event + " was never fired");
 }
 
-EE.idle("timeout", 100, callback);
+EventEmitter.idle("timeout", 100, callback);
 ```
 
 ### EventEmitter.delay(event, timeout /*, argument1, argument2 .. */);
@@ -106,13 +128,11 @@ function after xxx miliseconds.
 #### Example
 
 ```js
-var EE = new EventEmitter;
-
-EE.on('foo', function (arg, arg1) {
+EventEmitter.on('foo', function (arg, arg1) {
   console.log('args: ', arguments);
 });
 
-EE.delay('foo', 1000, 'arg1', 'arg2');
+EventEmitter.delay('foo', 1000, 'arg1', 'arg2');
 ```
 
 ### EventEmitter.defer(event /*, argument1, argument2 .. */);
@@ -123,37 +143,41 @@ Simular to wrapping an emit in a `process.nextTick`.
 #### Example
 
 ```js
-var EE = new EventEmitter;
-
-EE.on('pewpew', function () {
+EventEmitter.on('pewpew', function () {
   console.log('called second', arguments);
 });
 
-EE.defer('pewpew', 1, 2, 3);
+EventEmitter.defer('pewpew', 1, 2, 3);
 
 console.log('called first');
 ```
 
-### Uncaught events
+### Uncaught events and the any listeners
 
-EventReactor comes with the ability to capture uncaught events. These are events
-that don't have listeners assigned to them. It's currently hidden behind a
-preference flag because it needs to override the existing `emit` method in order
-to make this work.
+The EventReactor allows you to listen for unlistened events. These events are
+re-emitted under the `uncaughtEvent` event name. In addition to this, every
+emitted event is re-emitted under the `*.*` event name. This can be useful for
+debugging or logging your events.
+
+Because these features overrides the `emit` method, they are not added by
+default. If you want to leverage these events you need to call the
+`EventReactor#emit` method.
 
 #### Example
 
 ```js
-var EventReactor = require('eventreactor');
-EventReactor(true); // turn on uncaught events
+// we assume that ER is your EventReactor instance.
+ER.emit();
 
-var EE = new EventEmitter;
-
-EE.on('uncaught', function (event, data) {
+EventEmitter.on('uncaughtEvent', function (event, data) {
   console.log('no listeners for', event, data);
 });
 
-EE.emit('random name');
+EventEmitter.on('*.*', function () {
+  console.log('pew pew, captured);
+});
+
+EventEmitter.emit('random name');
 ```
 
 ### Aliases

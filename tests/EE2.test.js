@@ -7,7 +7,7 @@ describe('EventEmitter2->EventReactor', function () {
   var ER;
 
   before(function () {
-    ER = new EventReactor(true);
+    ER = new EventReactor({ manual: true });
 
     // bootup
     ER.aliases(EventEmitter2.prototype);
