@@ -1,4 +1,4 @@
-var EventEmitter2 = require('eventEmitter2').EventEmitter2
+var EventEmitter2 = require('eventemitter2').EventEmitter2
   , EventReactor = require('../lib');
 
 describe('EventEmitter2->EventReactor', function () {
