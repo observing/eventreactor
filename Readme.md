@@ -174,7 +174,7 @@ EventEmitter.on('uncaughtEvent', function (event, data) {
 });
 
 EventEmitter.on('*.*', function () {
-  console.log('pew pew, captured);
+  console.log('pew pew, captured');
 });
 
 EventEmitter.emit('random name');
