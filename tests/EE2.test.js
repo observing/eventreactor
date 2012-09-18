@@ -7,18 +7,7 @@ describe('EventEmitter2->EventReactor', function () {
   var ER;
 
   before(function () {
-    ER = new EventReactor({ manual: true });
-
-    // bootup
-    ER.aliases(EventEmitter2.prototype);
-    ER.every(EventEmitter2.prototype);
-    ER.either(EventEmitter2.prototype);
-    ER.multiple(EventEmitter2.prototype);
-    ER.has(EventEmitter2.prototype);
-    ER.defer(EventEmitter2.prototype);
-    ER.delay(EventEmitter2.prototype);
-    ER.idle(EventEmitter2.prototype);
-    ER.emit(EventEmitter2.prototype);
+    ER = new EventReactor(null, EventEmitter2.prototype);
   });
 
   it('introduces new function aliases', function () {

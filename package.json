@@ -1,7 +1,7 @@
 {
     "name": "eventreactor"
   , "description": "EventEmitters on a syntax suger rush"
-  , "version": "1.0.0"
+  , "version": "1.0.1"
   , "author": "Arnout Kazemier <opensource@observe.it>"
   , "homepage": "http://observe.it"
   , "keywords": ["event", "eventemitter", "observer", "reactor"]
