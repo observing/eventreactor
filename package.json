@@ -10,9 +10,9 @@
       , "url": "git://github.com/observing/eventreactor.git"
     }
   , "devDependencies": {
-        "should": "1.1.0"
-      , "mocha": "1.4.2"
-      , "eventemitter2": "0.4.9"
+        "should": "11.1.1"
+      , "mocha": "3.1.2"
+      , "eventemitter2": "2.2.0"
     }
   , "scripts": {
         "test": "make test"
